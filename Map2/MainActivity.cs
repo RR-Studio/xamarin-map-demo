@@ -31,7 +31,17 @@ namespace Map2
         public void OnMapReady(GoogleMap googleMap)
         {
             _map = googleMap;
+
+            _map.MyLocationEnabled = true;
+            _map.MyLocationChange += _map_MyLocationChange;
+
             this.InitializeMap();
+        }
+
+        private void _map_MyLocationChange(object sender, GoogleMap.MyLocationChangeEventArgs e)
+        {
+            var cameraUpdate = CameraUpdateFactory.NewLatLngZoom(new LatLng(e.Location.Latitude, e.Location.Longitude), 12);
+            _map.AnimateCamera(cameraUpdate);
         }
 
         private void InitializeMap()
